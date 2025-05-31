@@ -1,43 +1,4 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -70,27 +31,34 @@
             transform-style: preserve-3d;
         }
         .falling-text {
-            color: #ff69b4;
+            color: white; /* Thay đổi thành trắng */
             font-size: 5vw;
             white-space: nowrap;
             opacity: 0.9;
-            text-shadow: 0 0 5px rgba(255, 105, 180, 0.8),
-                         0 0 10px rgba(255, 105, 180, 0.6);
+            text-shadow: 
+                0 0 5px #ff69b4, /* Hiệu ứng quệt hồng */
+                0 0 10px #ff69b4,
+                0 0 20px #ff1493,
+                0 0 40px #ff1493;
             animation: fadeInOut 2s infinite alternate;
         }
         .heart {
-            color: #ff1493;
+            color: white; /* Thay đổi thành trắng */
             font-size: 5vw;
             opacity: 0.9;
-            text-shadow: 0 0 3px #ff1493, 0 0 5px #ff1493;
+            text-shadow: 
+                0 0 3px #ff69b4, /* Hiệu ứng quệt hồng */
+                0 0 5px #ff1493;
             animation: float 4s infinite ease-in-out;
         }
         .rose {
-            color: #ff4040;
+            color: white; /* Thay đổi thành trắng */
             font-size: 4vw;
             opacity: 0.9;
             transform: rotate(45deg);
-            text-shadow: 0 0 3px #ff4040, 0 0 5px #ff4040;
+            text-shadow: 
+                0 0 3px #ff69b4, /* Hiệu ứng quệt hồng */
+                0 0 5px #ff1493;
             animation: float 4s infinite ease-in-out;
         }
         /* Định nghĩa các lớp với độ sâu và kiểu khác nhau */
@@ -129,15 +97,73 @@
 <body>
     <div id="scene"></div>
     <audio id="backgroundMusic" loop>
-        <source src="https://nhatlinh04.github.io/to_tinh_niu/Ni%20Ny%20C%20Anh%20Lyrics%20Video.mp3" type="audio/mpeg">
-        Trình duyệt của bạn không hỗ trợ thẻ âm thanh.
+        <source src="https://cdn.jsdelivr.net/gh/love-uu-forever/love46@main/TikVid.io_7410689878502984976.mp3" type="audio/mpeg">
     </audio>
+
+    <script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+            return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+            if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+                try {
+                    var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                    var firstSheetName = workbook.SheetNames[0];
+                    var worksheet = workbook.Sheets[firstSheetName];
+
+                    // Convert sheet to JSON to filter blank rows
+                    var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                    // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                    var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                    // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                    var headerRowIndex = filteredData.findIndex((row, index) =>
+                      row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                    );
+                    // Fallback
+                    if (headerRowIndex === -1 || headerRowIndex > 25) {
+                      headerRowIndex = 0;
+                    }
+
+                    // Convert filtered JSON back to CSV
+                    var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                    csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                    return csv;
+                } catch (e) {
+                    console.error(e);
+                    return "";
+                }
+            }
+            return gk_fileData[filename] || "";
+        }
+    </script>
+
     <script>
         const texts = [
-            "Cảm ơn vì em đã đến!",
-            "Ai lớp diu chu cà mo ♥",
-            "Anh sẽ luôn bên cạnh em ♥",
-            "Quân♥Phương"
+   "💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧",
+"💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧",
+"💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧",
+"💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧",
+"💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧",
+"💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧",
+"💖Thi miss Tuấn💖",
+  "❤️Luv U❤️",
+  "🐈‍⬛❤️🦧"
         ];
 
         const scene = document.getElementById("scene");
@@ -258,7 +284,6 @@
             text.classList.add(layerClass);
             text.style.left = startX + "px";
             text.style.top = startY + "px";
-            text.style.color = `hsl(${Math.random() * 360}, 80%, 70%)`;
 
             scene.appendChild(text);
             activeTexts.push(text);
